@@ -1,8 +1,4 @@
 {
-  "users": [
-    {"id": 1, "name": "tom"}
-  ],
-  "todos": [
-    {"userId": 1, "id": 1, "todo": "Lear and Practice"}
-  ]
+  "users": [{ "id": 1, "name": "tom", "password": "abcd1234" }],
+  "todos": [{ "userId": 1, "id": 1, "todo": "Lear and Practice" }]
 }

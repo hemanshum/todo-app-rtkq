@@ -1,11 +1,13 @@
+import { IconButton, MD3Colors, Text } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Platform } from 'react-native';
+
 import HomeScreen from '../../screens/HomeScreen';
 import LoginScreen from '../../screens/LoginScreen';
-import { IconButton, MD3Colors, Text } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
-const isSignedIn = true;
+const isSignedIn = false;
 
 const MainNavigation = () => {
   return (
@@ -17,15 +19,20 @@ const MainNavigation = () => {
             component={HomeScreen}
             options={{
               headerTitle: 'ToDos',
-              headerLeft: () => <Text variant="labelMedium">Hi, World</Text>,
+              headerLeft: () => {
+                return Platform.OS === 'ios' && <Text variant="labelMedium">Hi, World</Text>;
+              },
               headerRight: () => (
-                <IconButton
-                  style={{ marginRight: -10 }}
-                  icon="logout"
-                  iconColor={MD3Colors.error50}
-                  size={20}
-                  onPress={() => console.log('Pressed')}
-                />
+                <>
+                  {Platform.OS === 'android' && <Text variant="labelMedium">Hi, World</Text>}
+                  <IconButton
+                    style={{ marginRight: -10 }}
+                    icon="logout"
+                    iconColor={MD3Colors.error50}
+                    size={20}
+                    onPress={() => console.log('Pressed')}
+                  />
+                </>
               ),
             }}
           />

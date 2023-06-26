@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
+import { useFetchUsersQuery } from '../../store';
 
 const LoginScreen = ({ navigation }) => {
   const [text, setText] = useState('');
+  const {data, error, isLoading} = useFetchUsersQuery();
+
+  console.log(data, isLoading);
 
   return (
     <View style={styles.container}>

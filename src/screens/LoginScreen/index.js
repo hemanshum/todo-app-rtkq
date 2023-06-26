@@ -2,21 +2,26 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [text, setText] = useState('');
 
   return (
     <View style={styles.container}>
       <Text style={styles.title} variant="titleLarge">
-       Welcome to Todo App
+        Welcome to Todo App
       </Text>
       <TextInput label="Username" value={text} onChangeText={(text) => setText(text)} />
-      <TextInput label="Password" value={text} onChangeText={(text) => setText(text)} />
+      <TextInput
+        label="Password"
+        value={text}
+        secureTextEntry
+        onChangeText={(text) => setText(text)}
+      />
       <Button
         style={styles.button}
         icon="login"
         mode="contained"
-        onPress={() => console.log('Pressed')}>
+        onPress={() => navigation.navigate('Home')}>
         Login
       </Button>
     </View>

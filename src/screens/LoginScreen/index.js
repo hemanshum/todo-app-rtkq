@@ -1,31 +1,54 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
-import { useFetchUsersQuery } from '../../store';
+import {
+  changeName,
+  changeSigninStatus,
+  useAddUserMutation,
+  useFetchUsersQuery,
+  useLoginUserMutation,
+} from '../../store';
+import { isNewUser } from '../../utils/isNewUser';
+import { findUser } from '../../utils/findUser';
+import { useDispatch } from 'react-redux';
 
 const LoginScreen = ({ navigation }) => {
-  const [text, setText] = useState('');
-  const {data, error, isLoading} = useFetchUsersQuery();
+  const dispatch = useDispatch();
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
+  const { data, error, isFetching } = useFetchUsersQuery();
+  const [loginUser, results] = useLoginUserMutation();
+  const [addUser, userResults] = useAddUserMutation();
 
-  console.log(data, isLoading);
+  const handleLogin = async () => {
+    if (!isNewUser(data, user)) {
+      const currentUser = findUser(data, user);
+      loginUser(currentUser);
+    } else {
+      addUser({ name: user, password });
+    }
+    dispatch(changeSigninStatus(true));
+    dispatch(changeName(user));
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title} variant="titleLarge">
         Welcome to Todo App
       </Text>
-      <TextInput label="Username" value={text} onChangeText={(text) => setText(text)} />
+      <TextInput label="Username" value={user} onChangeText={(user) => setUser(user)} />
       <TextInput
         label="Password"
-        value={text}
+        value={password}
         secureTextEntry
-        onChangeText={(text) => setText(text)}
+        onChangeText={(password) => setPassword(password)}
       />
       <Button
+        loading={isFetching}
         style={styles.button}
         icon="login"
         mode="contained"
-        onPress={() => navigation.navigate('Home')}>
+        onPress={handleLogin}>
         Login
       </Button>
     </View>

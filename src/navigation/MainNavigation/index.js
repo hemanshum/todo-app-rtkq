@@ -5,11 +5,12 @@ import { Platform } from 'react-native';
 
 import HomeScreen from '../../screens/HomeScreen';
 import LoginScreen from '../../screens/LoginScreen';
-
+import { useSelector } from 'react-redux';
 const Stack = createNativeStackNavigator();
-const isSignedIn = false;
 
 const MainNavigation = () => {
+  const { isSignedIn, userName } = useSelector((state) => state.user);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
